@@ -76,7 +76,7 @@ const Login = ({ navigation }) => {
                             <Text style={{ fontSize: 14, fontFamily: 'Poppins_200ExtraLight', color: 'white' }}>Ou</Text>
                             <View style={styles.dashedLine}></View>
                         </View>
-                        <Button title={'Entre com Blockchain'} action={() => console.log(1)} backgroundColor='rgba(255,255,255,0.28)' />
+                        <Button title={'Entre com Blockchain'} action={() => enter} backgroundColor='rgba(255,255,255,0.28)' />
                     </View>
                 </View>
             </View>
