@@ -63,7 +63,7 @@ export default function App() {
     <NavigationContainer>
       <StatusBar hidden />
       <Stack.Navigator
-        initialRouteName="DataSelection"
+        initialRouteName="Login"
         screenOptions={{
           headerShown: false
         }}
