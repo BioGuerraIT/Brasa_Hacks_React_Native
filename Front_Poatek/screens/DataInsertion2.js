@@ -54,7 +54,7 @@ const DataInsertion2 = ({ route, navigation }) => {
     const finishProfile = () => {
         const newData = `${data},${itemsSelected.join(',')}`
         console.log(newData)
-        navigation.navigate('Login')
+        navigation.navigate('FinishRegister')
     }
 
     const registerData = () => {

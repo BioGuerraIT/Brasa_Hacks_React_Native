@@ -9,19 +9,6 @@ import { useFonts } from 'expo-font';
 const Login = ({ navigation }) => {
     const [loginInfoName, setLoginInfoName] = useState('')
     const [loginInfoPN, setLoginInfoPN] = useState('')
-    const [imageTime, setImageTime] = useState(0)
-
-    useEffect(() => {
-        if (imageTime <= 2) {
-            setTimeout(() => {
-                setImageTime(time => time + 1)
-            }, 1000)
-        }
-    })
-
-    useEffect(() => {
-        console.log(imageTime)
-    }, [imageTime])
 
     const enter = () => {
         navigation.navigate('Home')
