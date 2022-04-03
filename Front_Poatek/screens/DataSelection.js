@@ -1,11 +1,50 @@
-import { StyleSheet, Text, View, Image } from 'react-native';
+import { StyleSheet, Text, View, Image, CheckBox } from 'react-native';
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
+import TextInputView from "../components/TextInput"
 
 const DataSelection = ({ route, navigation }) => {
+    const [items, setItems] = useState([])
+    const [itemsHTML, setItemsHTML] = useState([])
+    const [toggleCheckBox, setToggleCheckBox] = useState(false)
+
+    useEffect(() => {
+        setItems([
+            { name: 'Nome de usuário', value: 'userName' },
+            { name: 'Email', value: 'email' },
+            { name: 'CPF', value: 'cpf' },
+        ])
+    }, [])
+
+    useEffect(() => {
+        console.log(items)
+        createItemsHTML()
+    }, [items])
+
+    const createItemsHTML = () => {
+        setItemsHTML(items.map((item, index) => {
+            return (
+                <>
+                    <TextInputView onChange={() => { console.log("Item") }} placeholder={item.name} />
+                    <View style={{ flexDirection: 'row', width: '100%' }}>
+                        <View style={{ flex: 4, justifyContent: 'flex-start', alignContent: 'center', alignItems: 'center' }}>
+                            <Text style={[styles.text, { fontSize: 14, fontFamily: 'Poppins_200ExtraLight', color: 'white', marginStart: 10 }]}>Compartilhar Dado</Text>
+                        </View>
+                        <View style={{ flex: 4, justifyContent: 'flex-start', alignContent: 'center', alignItems: 'center' }}>
+                            <CheckBox
+                                disabled={false}
+                                value={toggleCheckBox}
+                                onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                            />
+                        </View>
+                    </View>
+                </>
+            )
+        }))
+    }
 
     const continuar = () => {
-        navigation.navigate('Login')
+        navigation.navigate('Home')
     }
 
     return (
@@ -18,15 +57,16 @@ const DataSelection = ({ route, navigation }) => {
                         source={require('../assets/logo.png')} resizeMode="contain"></Image>
                 </View>
                 <View style={styles.greeting}>
-                    <Text style={{ fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: 'white' }}>Queremos te conhecer!</Text>
-                    <Text style={{ fontSize: 24, fontFamily: 'Poppins_700Bold', color: 'white' }}>Construa Sua Identidade</Text>
+                    <Text style={[styles.text, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: 'white' }]}>Para os cadastros nas empresas</Text>
+                    <Text style={[styles.text, { fontSize: 24, fontFamily: 'Poppins_700Bold', color: 'white' }]}>Quais dados deseja</Text>
+                    <Text style={[styles.text, { fontSize: 24, fontFamily: 'Poppins_700Bold', color: 'white' }]}>compartilhar?</Text>
                 </View>
             </View>
             <View style={styles.content}>
-                {/*{itemsHTML}*/}
+                {itemsHTML}
             </View>
             <View style={styles.buttons}>
-                {/*<Button title={'Finalizar Perfil!'} action={finishProfile} backgroundColor='#134147' />*/}
+                <Button title={'Continuar'} action={continuar} backgroundColor='#134147' />
             </View>
         </View>
     )
@@ -50,16 +90,22 @@ const styles = StyleSheet.create({
         zIndex: -1
     },
     header: {
-        flex: 2,
+        flex: 3,
         justifyContent: 'flex-start',
         alignContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     },
     greeting: {
         justifyContent: 'center',
         alignContent: 'center',
         alignItems: 'center',
-        flex: 58
+        flex: 58,
+        width: '100%'
+    },
+    text: {
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
     },
     logo: {
         flex: 42,
@@ -72,13 +118,13 @@ const styles = StyleSheet.create({
         width: 187
     },
     content: {
-        flex: 5,
+        flex: 6,
         justifyContent: 'space-around',
         alignContent: 'center',
         alignItems: 'center'
     },
     buttons: {
-        flex: 3,
+        flex: 2,
         justifyContent: 'space-around',
         alignContent: 'center',
         alignItems: 'center'

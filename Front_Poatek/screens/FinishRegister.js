@@ -93,13 +93,13 @@ const styles = StyleSheet.create({
     },
     greeting: {
         flex: 6,
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignContent: 'center',
         alignItems: 'center',
         width: '80%',
     },
     text: {
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
         alignContent: 'center',
         alignItems: 'center',
     },
