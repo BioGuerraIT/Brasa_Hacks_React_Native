@@ -3,39 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import TextInputView from '../components/TextInput';
 // import LinearGradient from 'react-native-linear-gradient';
-import { SvgUri } from 'react-native-svg';
-import {
-    Poppins_100Thin,
-    Poppins_100Thin_Italic,
-    Poppins_200ExtraLight,
-    Poppins_200ExtraLight_Italic,
-    Poppins_300Light,
-    Poppins_300Light_Italic,
-    Poppins_400Regular,
-    Poppins_400Regular_Italic,
-    Poppins_500Medium,
-    Poppins_500Medium_Italic,
-    Poppins_600SemiBold,
-    Poppins_600SemiBold_Italic,
-    Poppins_700Bold,
-    Poppins_700Bold_Italic,
-    Poppins_800ExtraBold,
-    Poppins_800ExtraBold_Italic,
-    Poppins_900Black,
-    Poppins_900Black_Italic
-} from '@expo-google-fonts/poppins'
+
 import { useFonts } from 'expo-font';
 
 const Login = ({ navigation }) => {
     const [loginInfoName, setLoginInfoName] = useState('')
     const [loginInfoPN, setLoginInfoPN] = useState('')
     const [imageTime, setImageTime] = useState(0)
-
-    let [fontsLoaded] = useFonts({
-        Poppins_700Bold,
-        Poppins_400Regular,
-        Poppins_200ExtraLight,
-    });
 
     useEffect(() => {
         if (imageTime <= 2) {
@@ -52,6 +26,48 @@ const Login = ({ navigation }) => {
     const enter = () => {
         navigation.navigate('Home')
     }
+
+    // usetstate for storing and retrieving wallet details
+    const [data, setdata] = useState({
+        address: "",
+    });
+
+    // Button handler button for handling a
+    // request event for metamask
+    const btnhandler = () => {
+        // Asking if metamask is already present or not
+        if (window.ethereum) {
+            // res[0] for fetching a first wallet
+            window.ethereum
+                .request({ method: "eth_requestAccounts" })
+                .then((res) => {
+                    console.log(res)
+                    accountChangeHandler(res[0])
+                });
+        } else {
+            alert("install metamask extension!!");
+        }
+    };
+
+    const retrieveData = () => {
+        axios.post('http://localhost:8082/retrieve', {
+            id: 'eQVmx6HGVw8IWhz0ORY'
+        }, {
+            headers: {
+                'Access-Control-Allow-Origin': '*'
+            }
+        }).then((response) => {
+            console.log(response.data)
+        })
+    }
+
+    // Function for getting handling all events
+    const accountChangeHandler = (account) => {
+        // Setting an address data
+        setdata({
+            address: account,
+        });
+    };
 
     return (
         <View style={styles.container}>
@@ -74,15 +90,15 @@ const Login = ({ navigation }) => {
                     <Text style={{ fontSize: 34, fontFamily: 'Poppins_700Bold', color: 'white' }}>Vamos começar?</Text>
                 </View>
                 <View style={styles.actions}>
-                    <View style={{flex: 15, justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
+                    <View style={{ flex: 15, justifyContent: 'center', alignContent: 'center', alignItems: 'center' }}>
                         <Text style={{ fontSize: 18, fontFamily: 'Poppins_400Regular', color: 'white' }}>Primeira vez na plataforma?</Text>
                     </View>
                     <View style={styles.buttons}>
-                        <Button title={'Cadastra-se com Blockchain'} action={() => console.log(1)} backgroundColor='#134147' />
-                        <View style={{width: '100%', paddingHorizontal: 30, flexDirection: 'row', marginVertical: 30, justifyContent: 'space-between', alignContent: 'center', alignItems: 'center'}}>
-                            <View style = {styles.dashedLine}></View>
+                        <Button title={'Cadastra-se com Blockchain'} action={btnhandler} backgroundColor='#134147' />
+                        <View style={{ width: '100%', paddingHorizontal: 30, flexDirection: 'row', marginVertical: 30, justifyContent: 'space-between', alignContent: 'center', alignItems: 'center' }}>
+                            <View style={styles.dashedLine}></View>
                             <Text style={{ fontSize: 14, fontFamily: 'Poppins_200ExtraLight', color: 'white' }}>Ou</Text>
-                            <View style = {styles.dashedLine}></View>
+                            <View style={styles.dashedLine}></View>
                         </View>
                         <Button title={'Entre com Blockchain'} action={() => console.log(1)} backgroundColor='rgba(255,255,255,0.28)' />
                     </View>
