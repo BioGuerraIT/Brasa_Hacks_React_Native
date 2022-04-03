@@ -7,21 +7,21 @@ import TextInputView from '../components/TextInput';
 import { useFonts } from 'expo-font';
 
 const Login = ({ navigation }) => {
-    const [loginInfoName, setLoginInfoName] = useState('')
-    const [loginInfoPN, setLoginInfoPN] = useState('')
+    // const [loginInfoName, setLoginInfoName] = useState('')
+    // const [loginInfoPN, setLoginInfoPN] = useState('')
 
-    const enter = () => {
-        navigation.navigate('Home')
-    }
+    // const enter = () => {
+    //     navigation.navigate('Home')
+    // }
 
     // usetstate for storing and retrieving wallet details
-    const [data, setdata] = useState({
-        address: "",
-    });
+    // const [data, setData] = useState({
+    //     address: "",
+    // });
 
     // Button handler button for handling a
     // request event for metamask
-    const btnhandler = () => {
+    const signUpMetamask = () => {
         // Asking if metamask is already present or not
         if (window.ethereum) {
             // res[0] for fetching a first wallet
@@ -31,16 +31,16 @@ const Login = ({ navigation }) => {
                     accountChangeHandler(res[0])
                 });
         } else {
-            alert("install metamask extension!!");
+            alert("Please, install the metamask extension!");
         }
     };
 
     // Function for getting handling all events
     const accountChangeHandler = (account) => {
         // Setting an address data
-        setdata({
-            address: account,
-        });
+        // setData({
+        //     address: account,
+        // });
 
         navigation.navigate('DataInsertion1', {part: 1, account})
     };
@@ -70,7 +70,7 @@ const Login = ({ navigation }) => {
                         <Text style={{ fontSize: 18, fontFamily: 'Poppins_400Regular', color: 'white' }}>Primeira vez na plataforma?</Text>
                     </View>
                     <View style={styles.buttons}>
-                        <Button title={'Cadastra-se com Blockchain'} action={btnhandler} backgroundColor='#134147' />
+                        <Button title={'Cadastra-se com Blockchain'} action={signUpMetamask} backgroundColor='#134147' />
                         <View style={{ width: '100%', paddingHorizontal: 30, flexDirection: 'row', marginVertical: 30, justifyContent: 'space-between', alignContent: 'center', alignItems: 'center' }}>
                             <View style={styles.dashedLine}></View>
                             <Text style={{ fontSize: 14, fontFamily: 'Poppins_200ExtraLight', color: 'white' }}>Ou</Text>

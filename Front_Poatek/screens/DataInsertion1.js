@@ -52,13 +52,14 @@ const DataInsertion1 = ({ route, navigation }) => {
     }
 
     const completeNow = () => {
-        const data = itemsSelected.join(',')
-        setItemsSelected(['', '', '', '', ''])
-        createItemsHTML()
-        navigation.navigate('DataInsertion2', { part: 2, data })
+        const data = itemsSelected.join(',');
+        // setItemsSelected(['', '', '', '', '']);
+        // createItemsHTML();
+        navigation.navigate('DataInsertion2', { part: 2, data });
     }
 
     const completeLater = () => {
+        // Cancel operation and go back to login screen
         console.log(itemsSelected.join(','))
         navigation.navigate('Login')
     }
