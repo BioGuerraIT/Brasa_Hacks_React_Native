@@ -1,57 +1,46 @@
 import { StyleSheet, Text, View, Image } from 'react-native';
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
+import { withWalletConnect } from '@walletconnect/react-native-dapp';
 
 const Home = ({ route, navigation }) => {
-
-    const [imageTime, setImageTime] = useState(0)
-
-    useEffect(() => {
-        if (imageTime <= 3) {
-            setTimeout(() => {
-                setImageTime(time => time + 1)
-            }, 1000)
-        }
-    })
-
-    useEffect(() => {
-        console.log(imageTime)
-    }, [imageTime])
-
-    const continuar = () => {
-        navigation.navigate('Login')
-    }
 
     return (
         <View style={styles.container}>
             <Image style={styles.image_container}
                 source={require('../assets/gradient.png')} ></Image>
             <View style={styles.header}>
-                <View style={styles.shield}>
-                    <Image style={styles.shield_img}
-                        source={require('../assets/q4.png')} resizeMode="contain"></Image>
-                </View>
-            </View>
-            <View style={styles.content}>
-                <View style={styles.greeting}>
-                    <Text style={[styles.text, { fontSize: 24, fontFamily: 'Poppins_700Bold', color: 'white' }]}>Cadastro</Text>
-                    <Text style={[styles.text, { fontSize: 24, fontFamily: 'Poppins_700Bold', color: 'white' }]}>Confirmado!</Text>
-                    <Text style={[styles.text, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: 'white' }]}>Retornando à aplicação</Text>
-                    <Text style={[styles.text, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: 'white' }]}>principal</Text>
-                </View>
-                <View style={styles.buttons}>
-                    {imageTime > 3 ? (
-                        <Button style={styles.button} title={'Continuar'} action={continuar} backgroundColor='#134147' />
-                    ) : (
-                        <></>
-                    )}
-                </View>
-            </View>
-            <View style={styles.footer}>
                 <View style={styles.logo}>
                     <Image style={styles.logo_img}
                         source={require('../assets/logo.png')} resizeMode="contain"></Image>
                 </View>
+                <View style={styles.greeting}>
+                    <Text style={[styles.text, { fontSize: 24, fontFamily: 'Poppins_700Bold', color: 'white' }]}>Controle de Dados</Text>
+                    <Text style={[styles.text, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: 'white' }]}>Gerencie o compartihamento</Text>
+                    <Text style={[styles.text, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: 'white'}]}>de seus dados</Text>
+                </View>
+            </View>
+            <View style={styles.content}>
+                <View style={[styles.card, { borderWidth: 0, backgroundColor: "white", alignItems: 'center'}]}>
+                    <Text style={[styles.textCard, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: '3C3C43' }]}>Private Key: *******************</Text>
+                    <Text style={[styles.textCard, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: '3C3C43' }]}>Public Key: ajft36rkcsydGFydmSr3</Text>
+                </View>
+
+                <Text style={[styles.text, { fontSize: 24, fontFamily: 'Poppins_700Bold', color: 'white' }]}>Empresas</Text>
+
+                <View style={[styles.card, { borderWidth: 0, backgroundColor: "white"}]}>
+                    <Text style={[styles.textCard, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: '3C3C43' }]}>Nome: Magazine Luiza</Text>
+                    <Text style={[styles.textCard, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: '3C3C43' }]}>Dados: Nome, CPF, Email...</Text>
+                    <Text style={[styles.textCard, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', textDecorationLine: 'underline', textAlign: "right", Fcolor: '3C3C43', marginEnd: 20 }]}>Gerenciar</Text>
+                </View>
+
+                <View style={[styles.card, { borderWidth: 0, backgroundColor: "white"}]}>
+                    <Text style={[styles.textCard, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: '3C3C43' }]}>Nome: Americanas</Text>
+                    <Text style={[styles.textCard, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', color: '3C3C43' }]}>Dados: Nome, Email, Telefone...</Text>
+                    <Text style={[styles.textCard, { fontSize: 20, fontFamily: 'Poppins_200ExtraLight', textDecorationLine: 'underline', textAlign: "right", Fcolor: '3C3C43', marginEnd: 20 }]}>Gerenciar</Text>
+                </View>
+
+
             </View>
         </View>
     )
@@ -75,66 +64,55 @@ const styles = StyleSheet.create({
         zIndex: -1
     },
     header: {
-        flex: 4,
+        flex: 3,
         justifyContent: 'flex-start',
         alignContent: 'center',
-        alignItems: 'center'
-    },
-    shield: {
-        flex: 60,
-        justifyContent: 'flex-end',
-        alignContent: 'center',
         alignItems: 'center',
-        marginBottom: 10
-    },
-    shield_img: {
-        height: '70%',
-        width: 187
     },
     greeting: {
-        flex: 6,
-        justifyContent: 'flex-start',
-        alignContent: 'center',
-        alignItems: 'center',
-        width: '80%',
-    },
-    text: {
-        justifyContent: 'flex-start',
-        alignContent: 'center',
-        alignItems: 'center',
-    },
-    content: {
-        flex: 4,
-        justifyContent: 'center',
-        alignContent: 'center',
-        alignItems: 'center'
-    },
-    buttons: {
-        flex: 4,
         justifyContent: 'center',
         alignContent: 'center',
         alignItems: 'center',
+        flex: 58,
         width: '100%'
     },
-    button: {
-        width: '80%'
+    text: {
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
     },
-    footer: {
-        flex: 2,
-        justifyContent: 'flex-end',
-        alignContent: 'flex-end',
-        alignItems: 'flex-end'
+    textCard: {
+        justifyContent: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+        textAlign:"left",
+        margin: 4,
+        marginStart: 10
     },
     logo: {
         flex: 42,
         justifyContent: 'flex-end',
         alignContent: 'center',
         alignItems: 'center',
-        marginEnd: 10
     },
     logo_img: {
-        height: '50%',
-        width: 150
+        height: '100%',
+        width: 187
+    },
+    content: {
+        flex: 6,
+        justifyContent: 'space-around',
+        alignContent: 'center',
+        alignItems: 'center'
+    },
+    card: {
+        margin: 10,
+        borderRadius: 30,
+        textAlign: 'center',
+        fontSize: 22,
+        fontWeight: 'bold',
+        flex: 1,
+        width: '90%',
     },
 });
 
