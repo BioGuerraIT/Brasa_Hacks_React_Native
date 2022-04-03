@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import { useEffect, useState } from "react";
 import Button from "../components/Button";
 
-const FinishRegister = ({ route, navigation }) => {
+const Home = ({ route, navigation }) => {
 
     const [imageTime, setImageTime] = useState(0)
 
@@ -19,7 +19,7 @@ const FinishRegister = ({ route, navigation }) => {
     }, [imageTime])
 
     const continuar = () => {
-        navigation.navigate('DataSelection')
+        navigation.navigate('Login')
     }
 
     return (
@@ -138,4 +138,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default FinishRegister
+export default Home

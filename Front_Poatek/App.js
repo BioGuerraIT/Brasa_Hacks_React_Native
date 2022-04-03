@@ -28,6 +28,8 @@ import AppLoading from 'expo-app-loading';
 import DataInsertion1 from './screens/DataInsertion1';
 import DataInsertion2 from './screens/DataInsertion2';
 import FinishRegister from './screens/FinishRegister';
+import Home from './screens/Home';
+import DataSelection from './screens/DataSelection';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,7 +63,7 @@ export default function App() {
     <NavigationContainer>
       <StatusBar hidden />
       <Stack.Navigator
-        initialRouteName="FinishRegister"
+        initialRouteName="Login"
         screenOptions={{
           headerShown: false
         }}
@@ -70,6 +72,9 @@ export default function App() {
         <Stack.Screen name="DataInsertion1" component={DataInsertion1} />
         <Stack.Screen name="DataInsertion2" component={DataInsertion2} />
         <Stack.Screen name="FinishRegister" component={FinishRegister} />
+        <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="DataSelection" component={DataSelection} />
+
       </Stack.Navigator>
     </NavigationContainer>
 
