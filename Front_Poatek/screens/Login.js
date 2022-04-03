@@ -41,7 +41,6 @@ const Login = ({ navigation }) => {
             window.ethereum
                 .request({ method: "eth_requestAccounts" })
                 .then((res) => {
-                    console.log(res)
                     accountChangeHandler(res[0])
                 });
         } else {
@@ -49,24 +48,14 @@ const Login = ({ navigation }) => {
         }
     };
 
-    const retrieveData = () => {
-        axios.post('http://localhost:8082/retrieve', {
-            id: 'eQVmx6HGVw8IWhz0ORY'
-        }, {
-            headers: {
-                'Access-Control-Allow-Origin': '*'
-            }
-        }).then((response) => {
-            console.log(response.data)
-        })
-    }
-
     // Function for getting handling all events
     const accountChangeHandler = (account) => {
         // Setting an address data
         setdata({
             address: account,
         });
+
+        navigation.navigate('DataInsertion1', {part: 1, account})
     };
 
     return (
