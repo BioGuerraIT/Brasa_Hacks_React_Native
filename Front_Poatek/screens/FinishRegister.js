@@ -19,7 +19,7 @@ const FinishRegister = ({ route, navigation }) => {
     }, [imageTime])
 
     const continuar = () => {
-        navigation.navigate('DataSelection')
+        navigation.navigate('Login')
     }
 
     return (

@@ -36,7 +36,7 @@ const DataInsertion1 = ({ route, navigation }) => {
     const createItemsHTML = () => {
         setItemsHTML(items.map((item, index) => {
             return (
-                <TextInputView onChange={(data) => {
+                <TextInputView key={`formInput-${index}`} onChange={(data) => {
                     setNewValue(index, item.value, data)
                 }} placeholder={item.name} />
             )
@@ -52,10 +52,19 @@ const DataInsertion1 = ({ route, navigation }) => {
     }
 
     const completeNow = () => {
-        const data = itemsSelected.join(',');
+        let jsonUserData = {};
+
+        itemsSelected.forEach(item => {
+            const [field, value] = item.split('=');
+            jsonUserData[field] = value
+        });
+
+        console.log("User data as JSON (datInsertion1):", jsonUserData);
+        console.log("Account:", account);
+
         // setItemsSelected(['', '', '', '', '']);
         // createItemsHTML();
-        navigation.navigate('DataInsertion2', { part: 2, data });
+        navigation.navigate('DataInsertion2', { part: 2, account, jsonUserData });
     }
 
     const completeLater = () => {

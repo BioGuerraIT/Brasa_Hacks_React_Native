@@ -6,7 +6,7 @@ import Button from "../components/Button";
 const DataInsertion2 = ({ route, navigation }) => {
     const [items, setItems] = useState([])
     const [itemsHTML, setItemsHTML] = useState([])
-    const [data, setData] = useState('')
+    const [data, setData] = useState({})
     const [account, setAccount] = useState('')
     const [itemsSelected, setItemsSelected] = useState(['', '', '', '', ''])
 
@@ -17,10 +17,11 @@ const DataInsertion2 = ({ route, navigation }) => {
             { name: 'Endereço', value: 'address' },
             { name: 'RG', value: 'nationalID' },
             { name: 'Nacionalidade', value: 'nacionality' }
-        ])
+        ]) 
 
-        if (route.params && route.params.data) {
-            setData(route.params.data)
+        if (route.params && route.params.jsonUserData) {
+            console.log("Initializing json with route params (from last page): ", route.params.jsonUserData)
+            setData(route.params.jsonUserData)
         }
 
         if (route.params && route.params.account) {
@@ -36,7 +37,7 @@ const DataInsertion2 = ({ route, navigation }) => {
     const createItemsHTML = () => {
         setItemsHTML(items.map((item, index) => {
             return (
-                <TextInputView onChange={(data) => {
+                <TextInputView key={`formInput-${index}`} onChange={(data) => {
                     setNewValue(index, item.value, data)
                 }} placeholder={item.name} />
             )
@@ -52,9 +53,16 @@ const DataInsertion2 = ({ route, navigation }) => {
     }
 
     const finishProfile = () => {
-        const newData = `${data},${itemsSelected.join(',')}`
-        console.log(newData)
-        navigation.navigate('FinishRegister')
+        let jsonUserData = data;
+
+        itemsSelected.forEach(item => {
+            const [field, value] = item.split('=');
+            jsonUserData[field] = value
+        });
+
+        console.log("User data as JSON (dataInsertion2):", jsonUserData);
+        
+        navigation.navigate('DataSelection', { part: 3, account, jsonUserData });
     }
 
     const registerData = () => {

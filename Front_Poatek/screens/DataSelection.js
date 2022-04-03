@@ -1,12 +1,21 @@
 import { StyleSheet, Text, View, Image, CheckBox } from 'react-native';
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import TextInputView from "../components/TextInput"
+
+import Web3 from 'web3';
+import a  from 'web3-eth-contract';
+
+import makeContract from '@truffle/contract';
+
+import userDataJsonContract from '../contracts/UserData.json';
 
 const DataSelection = ({ route, navigation }) => {
     const [items, setItems] = useState([])
     const [itemsHTML, setItemsHTML] = useState([])
-    const [toggleCheckBox, setToggleCheckBox] = useState(false)
+    const [toggleCheckBox, setToggleCheckBox] = useState(false) 
+    const [jsonUserData,] = useState(route.params.jsonUserData)
+    const [account,] = useState(route.params.account)
 
     useEffect(() => {
         setItems([
@@ -17,16 +26,54 @@ const DataSelection = ({ route, navigation }) => {
     }, [])
 
     useEffect(() => {
-        console.log(items)
+        console.log("")
         createItemsHTML()
     }, [items])
+
+    // Function responsible to connect to Blockchain and send the user information, saving it there
+    const addUserInfoToBlockchain = async () => {
+        // Get web3 with its provider
+        // const web3 = new Web3("http://localhost:8545");
+        const web3 = new Web3(Web3.givenProvider || 'http://127.0.0.1:7545');
+        
+        console.log("Account: ", account);
+        /*
+        web3.eth.defaultAccount = account;
+        */
+
+        // =====================
+
+        let contractAddress = "0xba8B14E7Cdf82436D07821AAFfC755588671F9E6"
+        let ABI = userDataJsonContract.abi;
+
+        // Get the contract ABI
+        // const UserDataContract = makeContract({
+        //     abi: userDataJsonContract.abi,
+        //     address: contractAddress,
+        // });
+        // UserDataContract.setProvider(web3.currentProvider);
+        
+        var newContract = new web3.eth.Contract(ABI, contractAddress);
+        
+        try {
+            await newContract.methods.setUserData(account, JSON.stringify(jsonUserData)).send({ from: account });
+        }
+        catch (err) {
+            console.log("Error: ", err);
+        }       
+    }
 
     const createItemsHTML = () => {
         setItemsHTML(items.map((item, index) => {
             return (
-                <>
-                    <TextInputView onChange={() => { console.log("Item") }} placeholder={item.name} />
-                    <View style={{ flexDirection: 'row', width: '100%' }}>
+                <React.Fragment key={`fragment-${index}`}>
+                    <TextInputView 
+                        key={`textInputUserData-${index}`} 
+                        onChange={() => { console.log("Item") }} 
+                        placeholder={item.name}
+                        disabled={true} 
+                    />
+                    <View key={`viewUserData-${index}`} style={{ flexDirection: 'row', width: '100%' }}>
                         <View style={{ flex: 4, justifyContent: 'flex-start', alignContent: 'center', alignItems: 'center' }}>
                             <Text style={[styles.text, { fontSize: 14, fontFamily: 'Poppins_200ExtraLight', color: 'white', marginStart: 10 }]}>Compartilhar Dado</Text>
                         </View>
@@ -38,13 +85,14 @@ const DataSelection = ({ route, navigation }) => {
                             />
                         </View>
                     </View>
-                </>
+                </React.Fragment>
             )
         }))
     }
 
-    const continuar = () => {
-        navigation.navigate('Home')
+    const continuar = async () => {
+        await addUserInfoToBlockchain();
+        navigation.navigate('FinishRegister', { account, jsonUserData })
     }
 
     return (
