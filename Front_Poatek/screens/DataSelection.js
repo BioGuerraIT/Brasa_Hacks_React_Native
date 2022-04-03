@@ -3,12 +3,7 @@ import React, { useEffect, useState } from "react";
 import Button from "../components/Button";
 import TextInputView from "../components/TextInput"
 
-import Web3 from 'web3';
-import a  from 'web3-eth-contract';
-
-import makeContract from '@truffle/contract';
-
-import userDataJsonContract from '../contracts/UserData.json';
+import {getContract } from '../services/userDataContract'
 
 const DataSelection = ({ route, navigation }) => {
     const [items, setItems] = useState([])
@@ -16,6 +11,12 @@ const DataSelection = ({ route, navigation }) => {
     const [toggleCheckBox, setToggleCheckBox] = useState(false) 
     const [jsonUserData,] = useState(route.params.jsonUserData)
     const [account,] = useState(route.params.account)
+
+    const [jsonUserPrefs, setJsonUserPrefs] = useState({
+        exposeUserName: false,
+        exposeUserEmail: false,
+        exposeUserCPF: false,
+    })
 
     useEffect(() => {
         setItems([
@@ -32,31 +33,10 @@ const DataSelection = ({ route, navigation }) => {
 
     // Function responsible to connect to Blockchain and send the user information, saving it there
     const addUserInfoToBlockchain = async () => {
-        // Get web3 with its provider
-        // const web3 = new Web3("http://localhost:8545");
-        const web3 = new Web3(Web3.givenProvider || 'http://127.0.0.1:7545');
-        
-        console.log("Account: ", account);
-        /*
-        web3.eth.defaultAccount = account;
-        */
+        const contract = getContract(account);
 
-        // =====================
-
-        let contractAddress = "0xba8B14E7Cdf82436D07821AAFfC755588671F9E6"
-        let ABI = userDataJsonContract.abi;
-
-        // Get the contract ABI
-        // const UserDataContract = makeContract({
-        //     abi: userDataJsonContract.abi,
-        //     address: contractAddress,
-        // });
-        // UserDataContract.setProvider(web3.currentProvider);
-        
-        var newContract = new web3.eth.Contract(ABI, contractAddress);
-        
         try {
-            await newContract.methods.setUserData(account, JSON.stringify(jsonUserData)).send({ from: account });
+            await contract.methods.setUserData(account, JSON.stringify(jsonUserData)).send({ from: account });
         }
         catch (err) {
             console.log("Error: ", err);
@@ -71,7 +51,7 @@ const DataSelection = ({ route, navigation }) => {
                         key={`textInputUserData-${index}`} 
                         onChange={() => { console.log("Item") }} 
                         placeholder={item.name}
-                        disabled={true} 
+                        editable={false} 
                     />
                     <View key={`viewUserData-${index}`} style={{ flexDirection: 'row', width: '100%' }}>
                         <View style={{ flex: 4, justifyContent: 'flex-start', alignContent: 'center', alignItems: 'center' }}>
