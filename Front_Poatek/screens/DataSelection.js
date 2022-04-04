@@ -13,9 +13,9 @@ const DataSelection = ({ route, navigation }) => {
     const [account,] = useState(route.params.account)
 
     const [jsonUserPrefs, setJsonUserPrefs] = useState({
-        exposeUserName: false,
-        exposeUserEmail: false,
-        exposeUserCPF: false,
+        userName: false,
+        email: false,
+        cpf: false,
     })
 
     useEffect(() => {
@@ -50,8 +50,9 @@ const DataSelection = ({ route, navigation }) => {
                     <TextInputView 
                         key={`textInputUserData-${index}`} 
                         onChange={() => { console.log("Item") }} 
-                        placeholder={item.name}
+                        placeholder={`${item.name}: ${(jsonUserData[item.value] || undefined) ?? '<Não informado>'}`}
                         editable={false} 
+                        value={jsonUserData[item.value]}
                     />
                     <View key={`viewUserData-${index}`} style={{ flexDirection: 'row', width: '100%' }}>
                         <View style={{ flex: 4, justifyContent: 'flex-start', alignContent: 'center', alignItems: 'center' }}>
@@ -59,9 +60,12 @@ const DataSelection = ({ route, navigation }) => {
                         </View>
                         <View style={{ flex: 4, justifyContent: 'flex-start', alignContent: 'center', alignItems: 'center' }}>
                             <CheckBox
-                                disabled={false}
-                                value={toggleCheckBox}
-                                onValueChange={(newValue) => setToggleCheckBox(newValue)}
+                                // disabled={false}
+                                value={jsonUserPrefs[item.value]}
+                                onValueChange={(newValue) => setJsonUserPrefs({
+                                    ...jsonUserPrefs,
+                                    [item.value]: newValue
+                                })}
                             />
                         </View>
                     </View>

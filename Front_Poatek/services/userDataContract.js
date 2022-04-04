@@ -15,9 +15,7 @@ export function getContract(account) {
     web3.eth.defaultAccount = account;
     */
 
-    // =====================
-
-    let contractAddress = "0x699104e1D6b04aB43273Fd631c6604148d4D15A2";
+    let contractAddress = "0xd57E7C0C7d8473bb55e6A3f02aFC07F520614dD1";
     let ABI = userDataJsonContract.abi;
 
     // Get the contract ABI
